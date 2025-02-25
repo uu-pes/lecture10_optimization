@@ -415,10 +415,10 @@
 			}; 
 		</code></pre>
 		<pre class="fragment fade-up"> <code data-trim data-noescape >
-			| a | padding | b  | padding | c       |
-			| 1 |    1    | 2  |    2    | 4 bytes |
+			| a | padding | b | c |
+			| 1 |    1    | 2 | 4 |
 		</code></pre>
-		<li class="fragment fade-up"> X needs 10 bytes</li>
+		<li class="fragment fade-up"> X needs  8 bytes</li>
 	</ul>
 </section>
 
@@ -440,7 +440,7 @@
 			| c | b | a |
 			| 4 | 2 | 1 |
 		</code></pre>
-		<li class="fragment fade-up"> X needs 7 bytes (3 bytes fewer)</li>
+		<li class="fragment fade-up"> X needs 7 bytes</li>
 		<li class="fragment fade-up">NB: C standard prevents compilers from reordering fields themselves
 			<ul>
 				<li class="fragment fade-up">Sorting left to the programmer</li>
@@ -454,7 +454,7 @@
 	<ul>
 		<li>Can also handle unaligned variables</li>
 		<li>Load / store to unaligned variables are slower than accesses to aligned variables (s/T)</li>
-		<li>__packed can be used to enforce struct with unaligned members (see <a href="https://developer.arm.com/documentation/dui0375/g/Compiler-specific-Features/--packed">example</a>) </li>
+		<li><emph>__packed</emph> can be used to enforce struct with unaligned members (see <a href="https://developer.arm.com/documentation/dui0375/g/Compiler-specific-Features/--packed">documentation</a>) </li>
 	</ul>
 </section>
 
@@ -567,7 +567,7 @@
 		<ul>
 			<li class="fragment fade-up">We want to improve the design</li>
 			<li class="fragment fade-up">Modifications should not impact functionality of the systems</li>
-			<li class="fragment fade-up">Regression tests ensure functionality is preserved</li>
+			<li class="fragment fade-up">Regression tests can check that functionality is preserved</li>
 		</ul>
 	</ul>
 </section>
