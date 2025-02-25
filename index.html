@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Lecture 7</title>
+		<title>Lecture 10</title>
 
 		<link rel="shortcut icon" type="image/x-icon" href="uu_logo/UU_logo_color-cropped.ico">
 
@@ -25,8 +25,10 @@
 
 <!-- BEGIN SLIDES -->
 <section data-background-image="images/background.jpg" data-background-opacity="0.2">
-	<h1>Lecture 7</h1>
-	<p>Nikolaus Huber</p>
+	<h1>Lecture 10</h1>
+	<p>Paul Fiterau</p>
+	<br/>
+	<footer>Based on slides by Nikolaus Huber</footer>
 </section>
 
 <section data-background-image="images/optimization.jpg" data-background-opacity="0.12">
@@ -36,8 +38,8 @@
 <section>
 	<h3>Outline</h3>
 	<ul>
-		<li>Recap on Complexity</li>
-		<li>Space-Time spectrum</li>
+		<li>Asymptotic complexity</li>
+		<li>Space-Time Tradeoff</li>
 		<li>Measuring & Profiling</li>
 		<li>Low-level optimization</li>
 	</ul>
@@ -50,27 +52,35 @@
 	<h4>Donald Knuth</h4>
 </section>
 
+
+<section>
+	<h1>Asymptotic Complexity</h1>
+</section>
+
 <section>
 	<h3>Asymptotic complexity</h3>
 	<ul>
 		<li class="fragment fade-up">How does our code scale for different inputs?</li>
 		<li class="fragment fade-up">How do our algorithms scale?</li>
+		<!--
 		<li class="fragment fade-up">Are we interested in worst, average, or best case?</li>
 		<li class="fragment fade-up">Are we interested in processing time or memory requirement?</li>
+		-->
+		<div class="fragment fade-up"><img src="images/asymptotic_complexity.webp", class="r-stretch"></div>
 	</ul>
 </section>
 
 <section>
-	<h3>Recap: Landau Notation</h3>
+	<h3>Recap: Big O Notation</h3>
 	<div class="fragment fade-up">
 		\[
 			O(g(n)) = \{ f: \mathbb{N} \rightarrow \mathbb{N} \;|\; \exists M, n_0 : \forall n \geq n_0 \Rightarrow f(n) \leq M g(n) \}
 		\]
 	</div>
 	<ul>
-		<li class="fragment fade-up">$O(g(n))$ is the <emph>set</emph> of all functions that grow at <emph>most</emph> as quickly as g</li>
+		<li class="fragment fade-up">$O(g(n))$ is the <emph>set</emph> of all functions that grow at <emph>most</emph> as quickly as $g$</li>
 		<li class="fragment fade-up">For example: $2n^2 + n + 42 \in O(n^2)$</li>
-		<li class="fragment fade-up">More commonly: $2n^2 + n + 42 = O(n^2)$</li>
+		<li class="fragment fade-up">More conventionally: $2n^2 + n + 42 = O(n^2)$</li>
 	</ul>
 </section>
 
@@ -79,7 +89,7 @@
 	<table>
 		<tr>
 			<th>Algorithm</th>
-			<th>WC Runtime</th>
+			<th>Worst-case Runtime</th>
 		</tr>
 
 		<tr>
@@ -109,27 +119,37 @@
 	</table>
 </section>
 
+<!-- 
 <section>
 	<img src="images/timsort.png">
 </section>
+-->
 
 <section>
-	<h3>O - Notation</h3>
+	<h3>Discussion O-notation</h3>
 	<ul>
-		<li class="fragment fade-up">Is idependent of the unit of measure of time</li>
+		<li class="fragment fade-up">In O-notation, it does not matter what we measure</li>
 		<ul>
 			<li class="fragment fade-up">Absolute runtime (ms, µs, ...)</li>
 			<li class="fragment fade-up">Number of instructions</li>
 			<li class="fragment fade-up">Number of cycles</li>
-			<li class="fragment fade-up">All just some <emph>constant factors</emph> aparts</li>
+			<li class="fragment fade-up">etc... </li>
 		</ul>
-		<li class="fragment fade-up">Only captures scalability</li>
+		<li class="fragment fade-up">All are just some <emph>constant factors</emph> apart</li>
+	</ul>
+</section>
+
+<section>
+	<h3>Discussion O-Notation</h3>
+	<ul>
+		<li class="fragment fade-up">O-notation only captures <emph>scalability</emph></li>
 		<ul>
 			<li class="fragment fade-up">Gives idea of performance when input becomes arbitrarily large</li>
 			<li class="fragment fade-up">Does not tell anything about runtime for fixed input</li>
 			<li class="fragment fade-up">Worst-case often extremely unrealistic (but important for real-time)</li>
 		</ul>
 	</ul>
+
 </section>
 
 <section>
@@ -190,19 +210,23 @@
 	<ul>
 		<li class="fragment fade-up">Complexity of a problem = complexity of an <emph>optimal algorithm</emph> solving it</li>
 		<li class="fragment fade-up">E.g., sorting has complexity $O(n\;log(n))$</li>
-		<li class="fragment fade-up">Currently we cannot do better than Merge-sort/Tim-Sort in the general case</li>
-		<ul>
-			<li class="fragment fade-up">For special inputs we can do better</li>
-			<li class="fragment fade-up">Restricting the data domain can help (e.g. Dutch Flag Sorting Algorithm)</li>
-		</ul>
+		<li class="fragment fade-up">In the general case, we cannot do better than Merge-sort/Tim-Sort</li>
+		<li class="fragment fade-up">For special inputs we can do better
+			<ul>
+				<li>Restricting the data domain can help</li>
+				<li>E.g., Dutch Flag Sorting Algorithm has complexity $O(n)$, but restricts inputs to 0, 1 and 2</li>
+			</ul>
+		</li>
 	</ul>
 </section>
+
+<!-- Complexity for special inputs-->
 
 <section>
 	<h3>Data structures vs algorithms</h3>
 	<ul>
 		<li class="fragment fade-up">DS complementary aspect to algorithm complexity</li>
-		<li class="fragment fade-up">DS are often considered more important in algorithm design</li>
+		<li class="fragment fade-up">DS are often considered <emph>more important</emph> in algorithm design</li>
 		<ul>
 			<li class="fragment fade-up">Performance of DS operations has drastic impact on algorithm performance</li>
 			<li class="fragment fade-up">Often many choices (e.g. double linked lists, arrays, trees, hash tables, ...)</li>
@@ -215,8 +239,7 @@
 	<h3>Data structures</h3>
 	<ul>
 		<li class="fragment fade-up">Each DS comes with a set of operations</li>
-		<li class="fragment fade-up">Complixity of these operations often depends on the size of the DS</li>
-	</ul>
+		<li class="fragment fade-up">Complexity of these operations often depends on the size of the DS</li>
 
 	<table class="fragment fade-up" style="margin-top: 1rem;">
 		<tr>
@@ -240,15 +263,17 @@
 		<tr>
 			<td>Insert k-th element</td>
 			<td>$O(k) \approx O(n)$</td>
-			<td>-</td>
+			<td>- $(O(n))$</td>
 		</tr>
 
 		<tr>
 			<td>Append element</td>
 			<td>$O(1)$</td>
-			<td>-</td>
+			<td>- $(O(n))$</td>
 		</tr>
 	</table>
+		<li class="fragment fade-up">Insert and append on array need re-allocation</li>
+	</ul>
 </section>
 
 <section>
@@ -267,21 +292,25 @@
 </section>
 
 <section>
-	<h3>Space - Time - Tradeoff</h3>
+	<h1>Space-Time Tradeoff</h1>
+</section>
+
+<section>
+	<h3>Space-Time Tradeoff</h3>
 
 	<ul>
 		<li class="fragment fade-up">We can often choose whether an implementation</li>
 		<ul>
-			<li class="fragment fade-up">Uses more meory, but needs less computation</li>
+			<li class="fragment fade-up">Uses more memory, but needs less computation</li>
 			<li class="fragment fade-up">Uses more computation, but needs less memory</li>
 		</ul>
 		<li class="fragment fade-up">Choice has to be informed by context, no general solution</li>
-		<li class="fragment fade-up">Most of the following aspects can be understood as <emph>space-time-tradeoffs</emph></li>
+		<li class="fragment fade-up">Most of the following aspects can be understood as <emph>space-time tradeoffs</emph></li>
 	</ul>
 </section>
 
 <section>
-	<h3>Look - Up Tables</h3>
+	<h3>Look-Up Tables</h3>
 	<ul>
 		<li class="fragment fade-up">Pre-computed and stored in memory</li>
 		<li class="fragment fade-up">Data is accessed often</li>
@@ -300,8 +329,8 @@
 	<ul>
 		<li class="fragment fade-up">Can be stored in different ways</li>
 		<ul>
-			<li class="fragment fade-up">Raw format</li>
-			<li class="fragment fade-up">Compressed format</li>
+			<li class="fragment fade-up">Raw: more space, can be accessed quickly (S/t)</li>
+			<li class="fragment fade-up">Compressed: less space, but has to be decompressed before access (s/T)</li>
 		</ul>
 		<li class="fragment fade-up">Similar for other kinds of data (audio, text, ...)</li>
 	</ul>
@@ -312,8 +341,8 @@
 	<ul>
 		<li class="fragment fade-up">Individual bits can be stored in different ways</li>
 		<ul>
-			<li class="fragment fade-up">Packed: bits are grouped together</li>
-			<li class="fragment fade-up">Padded: reserve whole byte/word for each bit</li>
+			<li class="fragment fade-up">Packed: bits are grouped together (s/T)</li>
+			<li class="fragment fade-up">Padded: reserve whole byte/word for each bit (S/t)</li>
 		</ul>
 		<li class="fragment fade-up">Bit banding is similar to padded representation</li>
 	</ul>
@@ -336,37 +365,87 @@
 </section>
 
 <section>
-	<h3>Related topic: Alignment</h3>
+	<h3>Alignment</h3>
 	<ul>
-		<li class="fragment fade-up">On some architectures, addresses of int/short/char variables must be aligned to word boundries</li>
-		<li class="fragment fade-up">This is taken care of by the compiler</li>
-		<li class="fragment fade-up">C - Standard forbidds the compiler from reordering struct fields though</li>
+		<li class="fragment fade-up">On some architectures, addresses of int/short/char variables must be aligned</li>
+		<li class="fragment fade-up">This is taken care of by the compiler through <emph>padding</emph></li>	
+		<pre class="fragment fade-up C"><code data-trim data-noescape data-line-numbers="">
+			struct X {
+				char	a; // 1 byte 
+				short 	b; // 2 bytes
+				int 	c; // 4 bytes 
+			}; 
+		</code></pre>
+		<li class="fragment fade-up"> Based on alignment, X may use more than 7 bytes</li>
 	</ul>
+</section>
 
-	<pre class="fragment fade-up C"><code data-trim data-noescape data-line-numbers="">
-		struct X {
-			short	a; // 2 bytes 
-			char 	b; // 1 byte 
-			int 	c; // 4 bytes 
-		}; 
-	</code></pre>
+
+<section>
+	<h3>"Fully-aligned" architecture</h3>
+	<ul>
+		<li class="fragment fade-up">Variables need to be aligned to word boundries</li>
+		<ul>
+			<li class="fragment fade-up">I.e., on 32-bit machines, all addresses are multiples of 4</li>
+			<li class="fragment fade-up">Applied to early ARM processors, mostly outdated today</li>
+		</ul>
+		<pre class="fragment fade-up C"><code data-trim data-noescape data-line-numbers="">
+			struct X {
+				char	a; // 1 byte 
+				short 	b; // 2 bytes
+				int 	c; // 4 bytes 
+			}; 
+		</code></pre>
+		<li class="fragment fade-up"> X needs 12 bytes on 32-bit machine</li>
+	</ul>
+</section>
+<section>
+	<h3>"Self-aligned" architecture</h3>
+
+	<ul>
+		<li class="fragment fade-up">Addresses of n-byte types have to be multiples of n</li>
+		<ul>
+			<li class="fragment fade-up">int addresses => 4, short => 2, char => 1</li>
+		</ul>
+		<pre class="fragment fade-up C"><code data-trim data-noescape data-line-numbers="">
+			struct X {
+				char	a; // 1 byte 
+				short 	b; // 2 bytes
+				int 	c; // 4 bytes 
+			}; 
+		</code></pre>
+		<pre class="fragment fade-up"> <code data-trim data-noescape >
+			| a | padding | b  | padding | c       |
+			| 1 |    1    | 2  |    2    | 4 bytes |
+		</code></pre>
+		<li class="fragment fade-up"> X needs 10 bytes</li>
+	</ul>
 </section>
 
 <section>
-	<h3>Alignment</h3>
-
+	<h3>"Self-aligned" architecture</h3>
 	<ul>
-		<li class="fragment fade-up">On <emph>fully aligned</emph> architectures, variables need to be aligned to word boundries</li>
+		<li class="fragment fade-up">To save space, fields in a struct can be <i>sorted</i></li>
 		<ul>
-			<li class="fragment fade-up">I.e., on 32-bit machines, all addresses are multiples of 4</li>
-			<li class="fragment fade-up">Mostly outdated today</li>
+			<li class="fragment fade-up">Rule of thumb: sort fields based on their size, starting with biggest</li>
 		</ul>
-		<li class="fragment fade-up">On <emph>self aligned</emph> architectures, addresses of n-byte types have to be multiples of n</li>
-		<ul>
-			<li class="fragment fade-up">int addresses => 4, short => 2, char => 1</li>
-			<li class="fragment fade-up">To save space, fields in struct can be sorted (from biggest to smallest)</li>
-			<li class="fragment fade-up">Again, compiler is not allowed to re-order the fields (must be done manually)</li>
-		</ul>
+		<pre class="fragment fade-up C"><code data-trim data-noescape data-line-numbers="">
+			struct X {
+				int 	c; // 4 bytes
+				short 	b; // 2 bytes
+				char	a; // 1 byte 
+			}; 
+		</code></pre>
+		<pre class="fragment fade-up"> <code data-trim data-noescape>
+			| c | b | a |
+			| 4 | 2 | 1 |
+		</code></pre>
+		<li class="fragment fade-up"> X needs 7 bytes (3 bytes fewer)</li>
+		<li class="fragment fade-up">NB: C standard prevents compilers from reordering fields themselves
+			<ul>
+				<li class="fragment fade-up">Sorting left to the programmer</li>
+			</ul>
+		</li>
 	</ul>
 </section>
 
@@ -374,7 +453,8 @@
 	<h3>Alignment on ARM Cortex</h3>
 	<ul>
 		<li>Can also handle unaligned variables</li>
-		<li>Load / store to unaligned variables are slower than accesses to aligned variables</li>
+		<li>Load / store to unaligned variables are slower than accesses to aligned variables (s/T)</li>
+		<li>__packed can be used to enforce struct with unaligned members (see <a href="https://developer.arm.com/documentation/dui0375/g/Compiler-specific-Features/--packed">example</a>) </li>
 	</ul>
 </section>
 
@@ -399,38 +479,46 @@
 			<li class="fragment fade-up">Delicate decisions regarding space-time-tradeoff</li>
 			<li class="fragment fade-up">How much cache should be given to individual processes/cores</li>
 		</ul> -->
-		<li class="fragment fade-up">As said before, not that relevant for us</li>
+		<li class="fragment fade-up">Not so relevant to us</li>
 		<ul>
-			<li class="fragment fade-up">Smaller µCs usually don't have complicated cache structure</li>
+			<li class="fragment fade-up">Smaller µCs usually have internal RAM but no caches (e.g., Cortex M0+)</li>
 			<li class="fragment fade-up">Caches make WCET prediction even harder</li>
 			<li class="fragment fade-up">Sometimes: Scratchpad memories</li>
 		</ul>
 	</ul>
 </section>
 
+
+<section>
+	<h1>Measuring & Profiling</h1>
+</section>
+
 <section>
 	<h3>Optimizing Code</h3>
 	<ul>
-		<li class="fragment fade-up">Efficiency normally considered late in development</li>
-		<li class="fragment fade-up">Better to focus on readability and maintainability first</li>
-		<li class="fragment fade-up">Once a program is functionally complete, we can focus on optimization</li>
-		<li class="fragment fade-up">Not always possible in that way, some decisions have to be made up front</li>
+
+		<li class="fragment fade-up">Efficiency normally considered late in development
+			<ul>
+				<li class="fragment fade-up">Once a program is functionally complete and well-tested, we can focus on optimization</li>
+				<li class="fragment fade-up">However, some decisions have to be made up early (e.g., data structures)</li>
+			</ul>
+		</li>
+		<li class="fragment fade-up">Optimization should always be <emph>informed</emph></li>
 	</ul>
 </section>
 
 <section>
-	<h3>What to optimize?</h3>
+	<h3>How to find bottlenecks?</h3>
 	<ul>
-		<li class="fragment fade-up">Optimization should always be informed</li>
-		<li class="fragment fade-up">Can use a <emph>profiler</emph></li>
+		<li class="fragment fade-up">Using a <emph>profiler</emph></li>
 		<ul>
 			<li class="fragment fade-up">Tool to measure time spent in individual functions, blocks, ...</li>
 		</ul>
-		<li class="fragment fade-up">Can <emph>instrument</emph> the code</li>
+		<li class="fragment fade-up">By <emph>instrumenting</emph> the code</li>
 		<ul>
-			<li class="fragment fade-up">Sometimes some support from the (RT)OS</li>
+			<li class="fragment fade-up">Measure time needed for computations you expect to be costly</li>
 		</ul>
-		<li class="fragment fade-up">Conduct experiments</li>
+		<li class="fragment fade-up">Through <emph>experiments</emph></li>
 		<ul>
 			<li class="fragment fade-up">Remove or duplicate code sections</li>
 		</ul>
@@ -441,15 +529,15 @@
 	<h3>Profilers (1)</h3>
 	<ul>
 		<li class="fragment fade-up">gprof, Tracealyzer, ..., sometimes inbuilt into IDE</li>
-		<li class="fragment fade-up">Instrumentation based</li>
+		<li class="fragment fade-up">Instrumentation-based</li>
 		<ul>
 			<li class="fragment fade-up">Profiler adds statements to capture time at various code locations</li>
 			<li class="fragment fade-up">Affects measured times (maybe drastically)</li>
 		</ul>
-		<li class="fragment fade-up">Sampling based</li>
+		<li class="fragment fade-up">Sampling-based</li>
 		<ul>
 			<li class="fragment fade-up">Profiler stops program periodically and records current program counter</li>
-			<li class="fragment fade-up">Less precise</li>
+			<li class="fragment fade-up">Less precise (depends on sampling rate)</li>
 		</ul>
 	</ul>
 </section>
@@ -457,10 +545,9 @@
 <section>
 	<h3>Profilers (2)</h3>
 	<ul>
-		<li class="fragment fade-up">Simulation based</li>
+		<li class="fragment fade-up">Simulation-based</li>
 		<ul>
 			<li class="fragment fade-up">Usually quite slow</li>
-			<li class="fragment fade-up">Needs a cycle-accurate simulator for the platform</li>
 			<li class="fragment fade-up">Often works with simplified assumptions about the HW</li>
 		</ul>
 		<li class="fragment fade-up">In-circuit / tracing</li>
@@ -480,14 +567,20 @@
 		<ul>
 			<li class="fragment fade-up">We want to improve the design</li>
 			<li class="fragment fade-up">Modifications should not impact functionality of the systems</li>
+			<li class="fragment fade-up">Regression tests ensure functionality is preserved</li>
 		</ul>
 	</ul>
+</section>
+
+
+<section>
+	<h1>Low-level optimizations</h1>
 </section>
 
 <section>
 	<h3>Low-level optimizations</h3>
 	<ul>
-		<li class="fragment fade-up">Use faster instructions (i.e. bit-shifting vs multiplications)</li>
+		<li class="fragment fade-up">Use faster instructions (e.g., bit-shifting vs multiplications)</li>
 		<li class="fragment fade-up">Use right arithmetic data-types</li>
 		<ul>
 			<li class="fragment fade-up">Floating point, Fixed point, int</li>
@@ -496,9 +589,78 @@
 		<li class="fragment fade-up">Loop optimizations</li>
 		<li class="fragment fade-up">Sub-expression elimination</li>
 		<li class="fragment fade-up">Inlining</li>
-		<li class="fragment fade-up">Algebraic simplificitions</li>
+		<li class="fragment fade-up">Algebraic simplifications</li>
+		<li class="fragment fade-up">Check <a href="https://www.azillionmonkeys.com/qed/optimize.html">examples</a></li>
 	</ul>
 </section>
+
+
+<section>
+	<h3>Examples </h3>
+	<div style="display: flex; align-items: center;">
+		<div class="half-part">
+			<pre class="C"><code data-trim data-noescape>
+				x = y % 32;
+				x = y * 8;
+				x = y / w + z / w;
+
+			</code></pre>
+		</div>
+		<div class="half-part">
+			<pre class="C"><code data-trim data-noescape>
+			x = y & 31;
+			x = y << 3;
+			x = (y + z) / w;
+
+			</code></pre>
+		</div>
+	</div>
+</section>
+
+<section>
+	<h3>Examples </h3>
+	<div style="display: flex; align-items: center;">
+		<div class="half-part">
+			<pre class="C"><code data-trim data-noescape>
+
+				for (i=0; i < n; i++) {
+					if (condition) {
+						doSomething();
+					} else {
+						doSomethingElse();
+					}
+				}
+
+				
+				for (i = 0; i < 8; i++) {
+					sum += array[i];
+				}
+
+
+			</code></pre>
+		</div>
+		<div class="half-part">
+			<pre class="C"><code data-trim data-noescape>
+				// Loop fission
+				if (condition) {
+					for (i=0; i < n; i++) {
+						doSomething();
+					}
+				} else {
+					for (i=0; i < n; i++) {
+						doSomethingElse();
+					}
+				}
+				// Loop unrolling
+				for (int i = 0; i < 8; i += 2) {
+					sum += array[i];
+					sum += array[i + 1];
+				}
+			</code></pre>
+		</div>
+	</div>
+</section>
+
 
 <!--
 	int j = 0;
@@ -519,8 +681,8 @@
 		<li class="fragment fade-up">E.g., C keywords like <emph>inline</emph> and <emph>register</emph></li>
 		<li class="fragment fade-up">ISO TR 18037:2008: Embedded-C standard</li>
 	</ul>
-</section>
-
+</section>				
+<!--
 <section>
 	<img class="r-stretch" src="images/superoptimization.png">
 	<div class="citation">
@@ -546,10 +708,7 @@
 		</ul>
 	</ul>
 </section>
-
-<section>
-	<h1>Thanks for today!</h1>
-</section>
+-->
 
 <section>
 	<h1>Thanks for today!</h1>
